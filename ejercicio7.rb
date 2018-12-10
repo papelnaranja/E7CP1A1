@@ -14,23 +14,82 @@ inventario = {"Notebooks": 4, "PC Escritorio": 6, "Routers": 10, "Impresoras": 6
 # El programa debe repertirse hasta que el usuario ingrese 7 (salir).
 
 #agrega al inventario
-new_product = 'cocacola, 100'
-a = new_product.split(',')
-inventario[a[0]] = a[1].to_i
-#print inventario
+def add_item(inventario)
+    puts "Agregar producto en separando nombre y cantidad por coma, por ejemplo:"
+    puts "Cocacola, 100"
+    new_product = gets.chomp.to_s
+    a = new_product.split(',')
+    inventario[a[0].to_sym] = a[1].to_i
+    print inventario
+end
 
 #Eliminar item
-product_to_delete = 'Notebooks'.to_sym
-inventario.delete(product_to_delete)
-#print inventario
+def delete_item(inventario)
+    puts "Escribir el item a eliminar"
+    puts "Bebidas"  
+    product_to_delete = gets.chomp.to_sym
+    inventario.delete(product_to_delete)
+    print inventario
+end
 
-#Modificar stock
-
+#Modificar stock ( ok)
+def edit_item(inventario)
+    puts "Escribir el Nombre del producto a remplazar"
+    product_to_remplace = gets.chomp.to_sym
+    puts "Escribir el Nombre del nuevo producto"
+    new_name = gets.chomp.to_sym
+    puts "Escribir cantidad del producto"
+    new_stock = gets.chomp.to_i
+    inventario[new_name.to_sym] = new_stock
+    inventario.delete(product_to_remplace)
+    print inventario
+end
 
 #Sumar stock
-inv_values = inventario.values
-suma_inv = inv_values.inject {|sum, n| (sum + n) }
-puts suma_inv
+def sum_Stock(inventario)
+    inv_values = inventario.values
+    suma_inv = inv_values.inject { |sum, n| (sum + n) }
+    puts suma_inv
+end
 
 #Mayor stock
+def higher_stock(inventario)
+mayor_cant = inventario.sort_by{|k,v| v}
+puts mayor_cant[-1]
+end
 
+#Existe el item
+def item_exist(inventario)
+    puts "Escribir producto"
+    nombre = gets.chomp.to_sym
+    incluido = inventario.include? (nombre) 
+    if incluido == true 
+        puts "Si"
+    else
+        puts "No"
+    end
+end
+
+def program_init()
+    puts "Programa de inventario"
+    puts "Ingresa un número del 1 al 7, para elegir la opción"
+    puts "1. Agregar elemento al invetario"
+    puts "2. Eliminar item"
+    puts "3. Modificar stock"
+    puts "4. Sumar stock"
+    puts "5. mayor stock"
+    puts "6. comprobar si un item existe"
+    puts "7. Salir"
+end
+
+option = 0
+while option != 7 
+    program_init()
+    option = gets.chomp.to_i
+    add_item(inventario) if option == 1 
+    delete_item(inventario) if option == 2 
+    edit_item(inventario) if option == 3 
+    sum_Stock(inventario) if option == 4 
+    higher_stock(inventario) if option == 5
+    item_exist(inventario) if option == 6
+end
