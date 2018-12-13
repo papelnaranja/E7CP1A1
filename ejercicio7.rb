@@ -52,6 +52,8 @@ def sum_Stock(inventario)
     puts suma_inv
 end
 
+sum_Stock(inventario)
+
 #Mayor stock
 def higher_stock(inventario)
 mayor_cant = inventario.sort_by{|k,v| v}
@@ -86,10 +88,27 @@ option = 0
 while option != 7 
     program_init()
     option = gets.chomp.to_i
-    add_item(inventario) if option == 1 
-    delete_item(inventario) if option == 2 
-    edit_item(inventario) if option == 3 
-    sum_Stock(inventario) if option == 4 
-    higher_stock(inventario) if option == 5
-    item_exist(inventario) if option == 6
+    case option
+    when 1
+        add_item(inventario)
+    when 2
+        delete_item(inventario)
+    when 3
+        edit_item(inventario)
+    when 4
+        print "\n"
+        print sum_Stock(inventario)
+        print "\n"
+
+    when 5
+        print "\n"
+        print higher_stock(inventario)
+        print "\n"
+    when 6
+        item_exist(inventario)
+    when 7
+        puts "saliendo.."
+    else
+        puts "Entrada no valida"
+    end
 end
